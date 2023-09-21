@@ -1,12 +1,15 @@
-const express = require ("express");
+const express = require("express");
 
-const { postInstitute } = require("../../controllers/admin.controller");
+const {
+  postInstitute,
+  adminLogin,
+  registerSubAdmin,
+} = require("../../controllers/admin.controller");
 
 const adminRoute = express.Router();
 
+adminRoute.post("/login", adminLogin);
+adminRoute.post("/registerSub", registerSubAdmin);
 
-
-adminRoute.post("/institute", postInstitute);
-
-
-module.exports =  adminRoute;
+// adminRoute.post("/institute", postInstitute);
+module.exports = adminRoute;
