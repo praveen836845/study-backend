@@ -40,6 +40,8 @@ const courseSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-});
+},
+{timestamps :true}
+);
 
 module.exports = mongoose.model("Course", courseSchema);
