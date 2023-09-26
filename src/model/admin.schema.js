@@ -19,21 +19,22 @@ const adminSchema = Schema(
       required: true,
     },
     roles: {
-      type: [
-        {
-          type: String,
-          enum: [
-            "user",
-            "worker",
-            "teacher",
-            "institute",
-            "headstate",
-            "jobposter",
-            "admin",
-          ],
-        },
+      // type: [
+      //   {
+      type: String,
+      enum: [
+        "user",
+        "worker",
+        "teacher",
+        "institute",
+        "headstate",
+        "jobposter",
+        "admin",
       ],
-      default: ["admin"],
+      //   },
+      // ],
+      // default: ["admin"],
+      default: "admin",
     },
   },
   {

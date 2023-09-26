@@ -1,8 +1,5 @@
 const Institute = require("../model/institute.schema");
-const {
-  loginValidation,
-  registrationValidation,
-} = require("../utils/validation");
+const { loginValidation } = require("../utils/validation");
 const Admin = require("../model/admin.schema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -39,11 +36,12 @@ const adminLogin = async (req, res) => {
 };
 
 const registerSubAdmin = async (req, res) => {
-  const { error } = registrationValidation(req.body);
+  // const { error } = subAdminValidation(req.body);
 
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
+  // if (error) {
+  //   console.log("validation error");
+  //   return res.status(400).send(error.details[0].message);
+  // }
   const mobileExists = await Subadmin.findOne({ mobile: req.body.mobile });
   if (mobileExists) {
     return res.status(400).send("mobile already exists");
@@ -58,6 +56,7 @@ const registerSubAdmin = async (req, res) => {
     console.log(getRole);
     return res.status(400).send("role doesn't exists");
   }
+  console.log(getRole);
 
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -69,6 +68,8 @@ const registerSubAdmin = async (req, res) => {
     mobile: req.body.mobile,
     roles: getRole,
   });
+
+  console.log(subAdmin);
 
   try {
     const savedUser = await subAdmin.save();

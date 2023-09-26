@@ -36,6 +36,7 @@ const registerUser = async (req, res) => {
     password: hashPassword,
     mobile: req.body.mobile,
     user: role.user,
+    userId: req.body.mobile,
   });
 
   try {
@@ -45,7 +46,11 @@ const registerUser = async (req, res) => {
       role: role.user,
     });
     await userRole.save();
-    return res.status(200).send(user._id);
+    return res.status(200).send(
+      JSON.stringify({
+        userId: user._id,
+      })
+    );
   } catch (err) {
     res.status(400).send(err);
   }
@@ -76,6 +81,7 @@ const loginUser = async (req, res) => {
   res.end(
     JSON.stringify({
       token: token,
+      userId: user._id,
     })
   );
 };

@@ -9,9 +9,12 @@ const subAdminRoute = require("./routes/private/subAdmin.route");
 const jobPosterRoute = require("./routes/private/jobPoster.route");
 const { startServer } = require("./database/mongo.connection");
 
-/************ MIDDLEARES *************/
+/************ MIDDLEWARES *************/
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+// app.use("/docs", express.static("public"));
 
 /************ ROUTES *************/
 

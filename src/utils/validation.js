@@ -19,5 +19,20 @@ const loginValidation = (data) => {
   return schema.validate(data);
 };
 
-module.exports.registrationValidation = registrationValidation;
-module.exports.loginValidation = loginValidation;
+const subAdminValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().min(6).required(),
+    email: Joi.string().min(6).required().email(),
+    password: Joi.string().min(6).required(),
+    mobile: Joi.string().min(10).required(),
+    role: Joi.number().required(),
+  });
+
+  return schema.validate(data);
+};
+
+module.exports = {
+  subAdminValidation,
+  loginValidation,
+  registrationValidation,
+};
