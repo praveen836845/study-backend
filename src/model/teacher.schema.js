@@ -26,13 +26,19 @@ const teacherSchema = new mongoose.Schema({
     min: 6,
     max: 255,
   },
-  date: {
-    type: Date,
-    default: Date.now(),
-  },
-  isTeacher: {
-    type: Boolean,
-    default: true,
+
+  role : {
+    type : String,
+    enum: [
+      "user",
+      "worker",
+      "teacher",
+      "institute",
+      "headstate",
+      "jobposter",
+      "admin",
+    ],
+    default : "teacher",
   },
   courseCreated: [
     {
@@ -52,6 +58,9 @@ const teacherSchema = new mongoose.Schema({
     },
   ],
   //    TODO : add doc here too
+},
+{
+  timestamps : true
 });
 
 module.exports = mongoose.model("Teacher", teacherSchema);

@@ -8,12 +8,12 @@ const isInstitute =  async (req, res, next) =>{
     });
 
     if(!personRole){
-        return res.status(403).send(Json.stringify({
-            err : "auth failed"
+        return res.status(403).send(JSON.stringify({
+            err : "unauthentic user"
         }));
     }
 
-    if(personRole.role !== role.headstate){
+    if(personRole.role !== role.institute){
         return res.status(403).send(JSON.stringify({
             err : "auth failed"
         }));

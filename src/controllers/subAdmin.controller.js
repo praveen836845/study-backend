@@ -1,22 +1,36 @@
-const JobPoster = require("../model/jobPoster.schema");
+const Subadmin = require("../model/subAdmin.schema");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-const addJobPoster = async (req, res) =>{
-    const jobPoster = new JobPoster({
-        name : req.body.name,
-        password : req.body.password,
-        email : req.body.email,
-        mobile : req.body.mobile,
+const subadminLogin = async (req, res) => {
+  const subadmin = await Subadmin.findOne({ email: req.body.email });
+  if (!subadmin) {
+    return res.status(400).send("email doesn't exists");
+  }
 
-    });
+  const validPass = bcrypt.compare(req.body.password, subadmin.password);
+  if (!validPass) {
+    return res.status(400).send("email or password is wrong");
+  }
 
-    try{
-        const postersaved = await jobPoster.save();
-        return res.status(200).send(postersaved);
-    }catch(err){
-        return res.status(400).send(err);
-    }
+  const token = jwt.sign(
+    { _id: subadmin._id, role: subadmin.role },
+    process.env.TOKEN_SECRET
+  );
+
+  res.setHeader("content-Type", "application/json");
+  res.end(
+    JSON.stringify({
+      token: token,
+      userId: subadmin._id,
+      role: subadmin.role
+    })
+  );
+
 }
 
+
+
 module.exports = {
-    addJobPoster,
+    subadminLogin
 }

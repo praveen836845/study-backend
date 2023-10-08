@@ -19,6 +19,7 @@ const jobPosterSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Job",
   }],
-});
+},
+{timestamps :true});
 
 module.exports = mongoose.model("JobPoster", jobPosterSchema);

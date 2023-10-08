@@ -10,18 +10,26 @@ const {
   getProfile,
   saveDocs,
   getDocs,
+  getJobs,
 } = require("../../controllers/file.controller");
+
+const uploadImage = require("../../middleware/files.middleware");
+const uploadDocuments = require("../../middleware/files.middleware");
 
 router.post("/register", registerUser);
 
 router.post("/login", loginUser);
 
-router.post("/profile", upload, saveProfile);
+router.post("/profile", uploadImage, saveProfile);
 
-router.post("/document", upload, saveDocs);
+router.post("/documents", uploadDocuments, saveDocs);
 
 router.get("/profile", getProfile);
 
-router.get("/document", getDocs);
+router.get("/documents", getDocs);
+
+// router.get("/institutes", getInstitute);
+
+router.get("/jobs" , getJobs)
 
 module.exports = router;

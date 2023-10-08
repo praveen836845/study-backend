@@ -9,11 +9,11 @@ const isJobPoster =  async (req, res, next) =>{
 
     if(!personRole){
         return res.status(403).send(Json.stringify({
-            err : "auth failed"
+            err : "you are unauthorized to acces this route"
         }));
     }
 
-    if(personRole.role !== role.headstate){
+    if(personRole.role !== role.jobposter){
         return res.status(403).send(JSON.stringify({
             err : "auth failed"
         }));

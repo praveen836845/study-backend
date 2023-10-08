@@ -1,4 +1,5 @@
 const role = require("../model/role.model");
+const bcrypt = require("bcryptjs");
 
 function getRolesFormId(id) {
   switch (id) {
@@ -22,6 +23,13 @@ function getRolesFormId(id) {
   }
 }
 
+async function encryptPassword(password){
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password, salt);
+  return hashPassword;
+}
+
 module.exports = {
   getRolesFormId,
+  encryptPassword
 };

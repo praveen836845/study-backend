@@ -4,10 +4,21 @@ const User = require("./user.schema");
 const Course = require("./course.schema");
 
 const intituteSchema = new mongoose.Schema({
+  subadminId : {
+    require : true,
+    type : String,
+  },
   intituteName: {
     require: true,
     type: String,
   },
+  location : {
+    type : String,
+  },
+  coursesOffered :  [{
+    type: mongoose.Schema.ObjectId,
+    ref: "Course",
+  }],
   instituteBrochure: {
     data: Buffer,
     contentType: String,
@@ -16,21 +27,15 @@ const intituteSchema = new mongoose.Schema({
     type: String,
   },
   teachersCount: Number,
-  studentCount: Number,
-  teachersAssociated: [{
-    type: mongoose.Schema.ObjectId,
-    ref: "Teacher",
-  }],
   studentsAssociated: [
     {
       type: mongoose.Schema.ObjectId,
       ref: "User",
     },
   ],
-  coursesAssociated: [{
-    type: mongoose.Schema.ObjectId,
-    ref: "Course",
-  }],
-});
+
+},
+{timestamps :true}
+);
 
 module.exports = mongoose.model("Institute", intituteSchema);

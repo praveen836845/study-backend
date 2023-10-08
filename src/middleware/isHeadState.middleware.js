@@ -8,8 +8,8 @@ const isHeadState =  async (req, res, next) =>{
     });
 
     if(!personRole){
-        return res.status(403).send(Json.stringify({
-            err : "auth failed"
+        return res.status(403).send(JSON.stringify({
+            err : "UnAuthenticated User"
         }));
     }
 

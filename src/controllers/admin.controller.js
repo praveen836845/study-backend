@@ -1,9 +1,9 @@
-const Institute = require("../model/institute.schema");
-const { loginValidation } = require("../utils/validation");
+const { loginValidation, subAdminValidation } = require("../utils/validation");
 const Admin = require("../model/admin.schema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Subadmin = require("../model/subAdmin.schema");
+const Role = require("../model/role.schema");
 const { getRolesFormId } = require("../utils/commonFunctions");
 
 const adminLogin = async (req, res) => {
@@ -36,12 +36,12 @@ const adminLogin = async (req, res) => {
 };
 
 const registerSubAdmin = async (req, res) => {
-  // const { error } = subAdminValidation(req.body);
+  const { error } = subAdminValidation(req.body);
 
-  // if (error) {
-  //   console.log("validation error");
-  //   return res.status(400).send(error.details[0].message);
-  // }
+  if (error) {
+    console.log("validation error");
+    return res.status(400).send(error.details[0].message);
+  }
   const mobileExists = await Subadmin.findOne({ mobile: req.body.mobile });
   if (mobileExists) {
     return res.status(400).send("mobile already exists");
@@ -66,42 +66,36 @@ const registerSubAdmin = async (req, res) => {
     email: req.body.email,
     password: hashPassword,
     mobile: req.body.mobile,
-    roles: getRole,
+    role: getRole,
   });
 
-  console.log(subAdmin);
+
 
   try {
     const savedUser = await subAdmin.save();
+    console.log(savedUser);
+    console.log(savedUser._id);
     const userRole = new Role({
-      id: subAdmin._id,
+      id: savedUser._id,
       role: getRole,
     });
     await userRole.save();
-    return res.status(200).send(user._id);
-  } catch (err) {
+    return res.status(200).send(savedUser._id);
+  } 
+  catch (err) {
     res.status(400).send(err);
   }
 };
 
-const postInstitute = async (req, res) => {
-  var institute = new Institute({
-    intituteName: req.body.intituteName,
-    instituteDescription: req.body.instituteDescription,
-    teachersCount: req.body.teachersCount,
-    studentCount: req.body.studentCount,
-  });
 
-  try {
-    const instituteSaved = await institute.save();
-    return res.status(201).send(instituteSaved);
-  } catch (err) {
-    return res.status(400).send(err);
-  }
-};
+const deleteSubAdmin = async (req, res) =>{};
+
+const getSubadmins = async (req, res) =>{}
+
 
 module.exports = {
-  postInstitute,
   adminLogin,
   registerSubAdmin,
+  deleteSubAdmin,
+  getSubadmins
 };

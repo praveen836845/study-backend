@@ -1,5 +1,7 @@
 const User = require("../model/user.schema");
 const path = require("path");
+const Institute = require("../model/institute.schema");
+const Job = require("../model/job.schema");
 
 const saveProfile = async function (req, res) {
   const user = User.findOne({
@@ -55,13 +57,6 @@ const getProfile = async function (req, res) {
     );
   }
 
-  // return res.status(200).send(
-  //   JSON.stringify({
-  //     status: "success",
-  //     location: "http://localhost:3000/image/" + user.image,
-  //   })
-  // );
-
   const options = {
     root: path.join(__dirname, "..", "..", "public", "image"),
   };
@@ -83,13 +78,6 @@ const getDocs = async function (req, res) {
     );
   }
 
-  // return res.status(200).send(
-  //   JSON.stringify({
-  //     status: "success",
-  //     location: "http://localhost:3000/image/" + user.image,
-  //   })
-  // );
-
   const options = {
     root: path.join(__dirname, "..", "..", "public", "document"),
   };
@@ -97,9 +85,34 @@ const getDocs = async function (req, res) {
   return res.status(200).sendFile(user.document, options);
 };
 
+
+const getJobs = async function (req, res) {
+  try{
+    const job = await Job.find({});
+    return res.status(200).send(job);
+  }catch(err){
+    console.log(err);
+    return res.status(400).send(Json.stringify({
+      status : "some error occured",
+      mssg : `err`
+    }));
+  }
+}
+
+const getInstitute = async (req, res) => {
+  try{
+      const institutes = await Institute.find({});
+      res.status(200).send(institutes);
+  }catch(err){
+      res.status(400).send(err);
+  }
+}
+
 module.exports = {
   saveProfile,
   getProfile,
   saveDocs,
   getDocs,
+  getJobs,
+  getInstitute
 };

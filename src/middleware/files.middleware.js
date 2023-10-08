@@ -32,13 +32,23 @@ const filefilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({
+const uploadImage = multer({
   storage: storage,
   fileFilter: filefilter,
 }).fields([
-  { name: "document", maxCount: 1 },
   { name: "image", maxCount: 1 },
 ]);
 //  .single("uploaded_file");
 
-module.exports = upload;
+
+
+
+const uploadDocuments = multer({
+  storage: storage,
+  fileFilter: filefilter,
+}).fields([
+  { name: "document", maxCount: 1 },
+]);
+
+module.exports = uploadDocuments;
+module.exports = uploadImage;
